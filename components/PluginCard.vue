@@ -16,7 +16,13 @@
           </b-card-text>
         </div>
         <div class="text-center w-25">
-          <b-form-checkbox class="ml-2" v-model="enabled" switch size="lg" />
+          <b-form-checkbox
+            class="ml-2"
+            v-model="enabled"
+            switch
+            size="lg"
+            @change="toggle"
+          />
             <small :class="statusClass">{{ status }}</small>
         </div>
       </b-card-body>
@@ -38,9 +44,6 @@ export default {
     }
   },
   watch: {
-    enabled () {
-      this.$emit('toggled', this.info.id)
-    },
     info: {
       handler () {
         this.enabled = this.info.status === 'active'
@@ -60,6 +63,11 @@ export default {
     },
     isDisabled () {
       return this.info.status === 'disabled' || this.isAllDisabled
+    }
+  },
+  methods: {
+    toggle () {
+      this.$emit('toggled', this.info.id)
     }
   }
 }
