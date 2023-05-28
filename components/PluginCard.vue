@@ -1,22 +1,27 @@
 <template>
-  <b-card body-class="plugin-card">
-    <b-card-body class="info">
-      <div class="w-75">
-        <b-card-text class="plugin-name">
-          <span>
-            {{ info.title }}
-          </span>
-        </b-card-text>
-        <b-card-text class="desc">
-          {{ info.description }}
-        </b-card-text>
-      </div>
-      <div class="text-center w-25">
-        <b-form-checkbox class="ml-2" v-model="enabled" switch size="lg" />
-        <small :class="statusClass">{{ status }}</small>
-      </div>
-    </b-card-body>
-  </b-card>
+  <b-overlay :show="info.status === 'disabled'">
+    <template #overlay>
+      <span />
+    </template>
+    <b-card body-class="plugin-card">
+      <b-card-body class="info">
+        <div class="w-75">
+          <b-card-text class="plugin-name">
+            <span>
+              {{ info.title }}
+            </span>
+          </b-card-text>
+          <b-card-text class="desc">
+            {{ info.description }}
+          </b-card-text>
+        </div>
+        <div class="text-center w-25">
+          <b-form-checkbox class="ml-2" v-model="enabled" switch size="lg" />
+            <small :class="statusClass">{{ status }}</small>
+        </div>
+      </b-card-body>
+    </b-card>
+  </b-overlay>
 </template>
 <script>
 export default {
