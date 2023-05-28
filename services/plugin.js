@@ -1,19 +1,11 @@
 import axios from 'axios'
 import { serverUrls } from '~/utils'
 
-export function getAllPlugins () {
+export function getAllData () {
   return axios.get(
     serverUrls.baseUrl
   ).then((response) => {
-    return response.data.plugins
-  })
-}
-
-export function getAllTabdata () {
-  return axios.get(
-    serverUrls.baseUrl
-  ).then((response) => {
-    return response.data.tabdata
+    return response.data
   })
 }
 
@@ -33,5 +25,17 @@ export function updateTab (payload) {
     data
   ).then((response) => {
     return response.data.tabdata
+  })
+}
+
+export function toggleAll (payload) {
+  const data = {
+    isAllDisabled: payload
+  }
+  return axios.patch(
+    serverUrls.baseUrl,
+    data
+  ).then((response) => {
+    return response.data.isAllDisabled
   })
 }

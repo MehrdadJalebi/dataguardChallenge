@@ -1,5 +1,5 @@
 <template>
-  <b-overlay :show="info.status === 'disabled'">
+  <b-overlay :show="isDisabled">
     <template #overlay>
       <span />
     </template>
@@ -24,6 +24,7 @@
   </b-overlay>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     info: {
@@ -41,20 +42,24 @@ export default {
       this.$emit('toggled', this.info.id)
     },
     info: {
-      handler (newVal) {
-        if (newVal) {
-          this.enabled = newVal.status === 'active'
-        }
+      handler () {
+        this.enabled = this.info.status === 'active'
       },
       immediate: true
     }
   },
   computed: {
+    ...mapGetters({
+      isAllDisabled: 'isAllDisabled'
+    }),
     statusClass () {
       return this.enabled ? 'text-success' : 'text-danger'
     },
     status () {
       return this.enabled ? 'Allowed' : 'Blocked'
+    },
+    isDisabled () {
+      return this.info.status === 'disabled' || this.isAllDisabled
     }
   }
 }

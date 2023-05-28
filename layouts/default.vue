@@ -13,8 +13,7 @@ export default {
     SidebarMenu
   },
   created () {
-    this.getAllPlugins()
-    this.getAllTabdata()
+    this.getAllData()
   },
   computed: {
     sidebarItems () {
@@ -39,8 +38,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getAllPlugins: 'getAllPlugins',
-      getAllTabdata: 'getAllTabdata'
+      getAllData: 'getAllData'
     })
   }
 }

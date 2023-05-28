@@ -1,18 +1,17 @@
-import {
-  getAllPlugins,
-  getTab,
-  updateTab,
-  getAllTabdata
-} from '~/services'
+import { getAllData, getTab, updateTab, toggleAll } from '~/services'
 export const state = () => ({
   plugins: [],
   tab: {},
-  tabdata: {}
+  tabdata: {},
+  isAllDisabled: false
 })
 
 export const getters = {
   plugins (state) {
     return state.plugins
+  },
+  isAllDisabled (state) {
+    return state.isAllDisabled
   }
 }
 
@@ -23,19 +22,20 @@ export const mutations = {
   SET_ALL_TABDATA (state, payload) {
     state.tabdata = payload
   },
+  SET_IS_ALL_DISABLED (state, payload) {
+    state.isAllDisabled = payload
+  },
   SET_TAB (state, payload) {
     state.tab = payload
   }
 }
 
 export const actions = {
-  async getAllPlugins ({ commit }) {
-    const plugins = await getAllPlugins()
-    commit('SET_ALL_PLUGINS', plugins)
-  },
-  async getAllTabdata ({ commit }) {
-    const tabdata = await getAllTabdata()
-    commit('SET_ALL_TABDATA', tabdata)
+  async getAllData ({ commit }) {
+    const alldata = await getAllData()
+    commit('SET_ALL_TABDATA', alldata.tabdata)
+    commit('SET_ALL_PLUGINS', alldata.plugins)
+    commit('SET_IS_ALL_DISABLED', alldata.isAllDisabled ? alldata.isAllDisabled : false)
   },
   async getTab ({ commit }, tab) {
     const res = await getTab(tab)
@@ -46,5 +46,9 @@ export const actions = {
     tab[payload.tabName] = payload.tab
     const res = await updateTab(tab)
     commit('SET_TAB', res)
+  },
+  async toggleAll ({ commit }, status) {
+    const res = await toggleAll(status)
+    commit('SET_IS_ALL_DISABLED', res)
   }
 }

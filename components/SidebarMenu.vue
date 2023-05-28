@@ -33,6 +33,7 @@
   </b-sidebar>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import { BIconGridFill, BIconCurrencyExchange, BIconClipboardCheck } from 'bootstrap-vue'
 
 export default {
@@ -47,6 +48,14 @@ export default {
       default: () => []
     }
   },
+  watch: {
+    allEnabled () {
+      this.toggleAll(!this.allEnabled)
+    },
+    isAllDisabled () {
+      this.allEnabled = !this.isAllDisabled
+    }
+  },
   data () {
     return {
       toggle: true,
@@ -54,6 +63,14 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      isAllDisabled: 'isAllDisabled'
+    })
+  },
+  methods: {
+    ...mapActions({
+      toggleAll: 'toggleAll'
+    })
   }
 }
 </script>
