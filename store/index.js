@@ -1,7 +1,13 @@
-import { getAllPlugins, getTab } from '~/services'
+import {
+  getAllPlugins,
+  getTab,
+  updateTab,
+  getAllTabdata
+} from '~/services'
 export const state = () => ({
   plugins: [],
-  tab: {}
+  tab: {},
+  tabdata: {}
 })
 
 export const getters = {
@@ -11,8 +17,11 @@ export const getters = {
 }
 
 export const mutations = {
-  GET_ALL_PLUGINS (state, payload) {
+  SET_ALL_PLUGINS (state, payload) {
     state.plugins = payload
+  },
+  SET_ALL_TABDATA (state, payload) {
+    state.tabdata = payload
   },
   SET_TAB (state, payload) {
     state.tab = payload
@@ -22,11 +31,20 @@ export const mutations = {
 export const actions = {
   async getAllPlugins ({ commit }) {
     const plugins = await getAllPlugins()
-    commit('GET_ALL_PLUGINS', plugins)
+    commit('SET_ALL_PLUGINS', plugins)
+  },
+  async getAllTabdata ({ commit }) {
+    const tabdata = await getAllTabdata()
+    commit('SET_ALL_TABDATA', tabdata)
   },
   async getTab ({ commit }, tab) {
     const res = await getTab(tab)
-    console.log('tab', res)
     commit('SET_TAB', res.data.tabdata[tab])
+  },
+  async updateTab ({ state, commit }, payload) {
+    const tab = { ...state.tabdata }
+    tab[payload.tabName] = payload.tab
+    const res = await updateTab(tab)
+    commit('SET_TAB', res)
   }
 }

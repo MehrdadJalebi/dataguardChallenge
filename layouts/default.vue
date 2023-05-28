@@ -6,36 +6,43 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import SidebarMenu from '~/components/SidebarMenu'
 export default {
   components: {
-    SidebarMenu,
+    SidebarMenu
   },
-  created() {
-    console.log('sadsdasd', this.$store)
-    this.$store.dispatch("getAllPlugins");
+  created () {
+    this.getAllPlugins()
+    this.getAllTabdata()
   },
   computed: {
-    sidebarItems() {
+    sidebarItems () {
       return [
         {
-          title: "Marketing",
-          route: "/tab1",
-          icon: "b-icon-grid-fill",
+          title: 'Marketing',
+          route: '/tab1',
+          icon: 'b-icon-grid-fill'
         },
         {
-          title: "Finance",
-          route: "/tab2",
-          icon: "b-icon-currency-exchange",
+          title: 'Finance',
+          route: '/tab2',
+          icon: 'b-icon-currency-exchange'
         },
         {
-          title: "Personnel",
-          route: "/tab3",
-          icon: "b-icon-clipboard-check",
-        }, 
+          title: 'Personnel',
+          route: '/tab3',
+          icon: 'b-icon-clipboard-check'
+        }
       ]
-    },
+    }
   },
+  methods: {
+    ...mapActions({
+      getAllPlugins: 'getAllPlugins',
+      getAllTabdata: 'getAllTabdata'
+    })
+  }
 }
 </script>
 
@@ -44,13 +51,6 @@ export default {
   --text-primary: hsl(200, 15%, 8%);
   --background-primary: hsl(0, 0%, 100%);
   --elements-primary: hsl(0, 0%, 100%);
-  --input-primary: hsl(0, 0%, 52%);
-}
-
-:root.dark {
-  --text-primary: hsl(0, 0%, 100%);
-  --background-primary: hsl(207, 26%, 17%);
-  --elements-primary: hsl(209, 23%, 22%);
   --input-primary: hsl(0, 0%, 52%);
 }
 

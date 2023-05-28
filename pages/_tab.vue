@@ -10,7 +10,7 @@
         md="12"
         sm="12"
       >
-        <plugin-card :info="plugin" />
+        <plugin-card :info="plugin" @toggled="togglePlugin"/>
       </b-col>
     </b-row>
   </b-container>
@@ -35,7 +35,6 @@ export default {
   watch: {
     $route: {
       handler(newVal) {
-        console.log('newVal: ', newVal)
         this.init()
       },
       immediate: true,
@@ -50,6 +49,9 @@ export default {
     this.init()
   },
   methods: {
+    ...mapActions({
+      updateTab: 'updateTab'
+    }),
     async init() {
       this.tab = await getTab(this.$route.params.tab)
       this.setTabPlugins()
@@ -73,6 +75,22 @@ export default {
         description: item[1].description,
         status
       })
+    },
+    togglePlugin(e) {
+      if (this.tab.active.includes(e)) {
+        this.tab.inactive.push(e)
+        const itemIndex = this.tab.active.indexOf(e)
+        this.tab.active.splice(itemIndex, 1)
+      } else if (this.tab.inactive.includes(e)) {
+        this.tab.active.push(e)
+        const itemIndex = this.tab.inactive.indexOf(e)
+        this.tab.inactive.splice(itemIndex, 1)
+      }
+      const payload = { 
+        tab: this.tab,
+        tabName: this.$route.params.tab
+      }
+      this.updateTab(payload)
     },
   },
 }

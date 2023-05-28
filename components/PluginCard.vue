@@ -24,34 +24,34 @@ export default {
     info: {
       type: Object,
       default: () => {}
-    },
+    }
   },
-  data() {
+  data () {
     return {
-      enabled: true,
+      enabled: true
     }
   },
   watch: {
-    enabled() {
-      this.$emit('toggled', this.enabled)
+    enabled () {
+      this.$emit('toggled', this.info.id)
     },
     info: {
-      handler(newVal) {
+      handler (newVal) {
         if (newVal) {
           this.enabled = newVal.status === 'active'
         }
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   computed: {
-    statusClass() {
+    statusClass () {
       return this.enabled ? 'text-success' : 'text-danger'
     },
-    status() {
+    status () {
       return this.enabled ? 'Allowed' : 'Blocked'
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="scss">
@@ -102,4 +102,5 @@ $danger: #C63040;
     max-width: 80vw;
     margin: 0 auto 2rem;
   }
-}</style> 
+}
+</style>
